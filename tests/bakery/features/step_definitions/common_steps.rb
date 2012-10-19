@@ -20,11 +20,15 @@ Capybara:
 
 Given /^I visit "(.*?)"$/ do |site|
   Capybara.app_host = site
-  visit('/')
+  retry_on_timeout do
+    visit('/')
+  end
 end
 
 Given /^I am visiting the homepage$/ do
-  visit('/')
+  retry_on_timeout do
+    visit('/')
+  end
 end
 
 Then /^I should (not )?see a title containing the word "(.*?)"$/ do |present, text|
@@ -78,7 +82,9 @@ Given /^I change my email to "(.*?)"$/ do |change|
 end
 
 Then /^I should see a link containing the text "(.*?)"$/ do |text|
-  find_link(text).visible? 
+  retry_on_timeout do
+    find_link(text).visible?
+  end
 end
 
 When /^I click "(.*?)"$/ do |text|
